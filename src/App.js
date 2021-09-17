@@ -1,23 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  InputLabel,
+  Box,
+  FormControl,
+} from "@material-ui/core";
+import { useState } from "react";
+import "./App.css";
+import { renderChart, TypeToChart } from "./chartRender/chart-render";
+import StatsCalculator from "./stats-funcs/stats-calculator";
 
 function App() {
+  const [input, setInput] = useState("");
+  const [chartType, setChartType] = useState();
+  const stats = StatsCalculator(input);
+  console.log(Object.entries(stats));
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Box>
+        <FormControl>
+          <Box flexDirection="row">
+            <TextField
+              type="text"
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+              value={input}
+              placeholder="Data"
+            />
+            <TextField
+              fullWidth
+              label="Chart Type"
+              select
+              id="chart type"
+              value={chartType}
+              onChange={(e) => {
+                setChartType(e.target.value);
+              }}
+            >
+              <MenuItem value="line">Line Chart</MenuItem>
+              <MenuItem value="histogram">Histogram</MenuItem>
+            </TextField>
+          </Box>
+        </FormControl>
+      </Box>
+      <ol>
+        {input &&
+          Object.entries(stats).map(([key, value]) => (
+            <Typography>
+              {key}: {value}
+            </Typography>
+          ))}
+      </ol>
+      {input && chartType && (
+        <TypeToChart resultSet={stats.frequencyArr} chartType={chartType} />
+      )}
     </div>
   );
 }
