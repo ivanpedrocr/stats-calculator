@@ -14,9 +14,8 @@ import StatsCalculator from "./stats-funcs/stats-calculator";
 
 function App() {
   const [input, setInput] = useState("");
-  const [chartType, setChartType] = useState();
-  const stats = StatsCalculator(input);
-  console.log(Object.entries(stats));
+  const [chartType, setChartType] = useState("");
+  const {frequencyArr, arr, ...stats} = StatsCalculator(input);
   return (
     <div className="App">
       <Box>
@@ -48,14 +47,10 @@ function App() {
       </Box>
       <ol>
         {input &&
-          Object.entries(stats).map(([key, value]) => (
-            <Typography>
-              {key}: {value}
-            </Typography>
-          ))}
+          Object.entries(stats).map(([key, value]) => <div>{`${key}: ${value}`}</div> )}
       </ol>
       {input && chartType && (
-        <TypeToChart resultSet={stats.frequencyArr} chartType={chartType} />
+        <TypeToChart frequencyArr={frequencyArr} rawArr={arr} chartType={chartType} />
       )}
     </div>
   );

@@ -39,11 +39,11 @@ const CartesianChart = ({
   </ResponsiveContainer>
 );
 
-export const TypeToChart = ({ resultSet, chartType }) => {
+export const TypeToChart = ({ frequencyArr, rawArr, chartType }) => {
   switch (chartType) {
     case "line":
       return (
-        <CartesianChart ChartComponent={LineChart} resultSet={resultSet}>
+        <CartesianChart ChartComponent={LineChart} resultSet={frequencyArr}>
           <Line
             stackId="a"
             dataKey="frequency"
@@ -53,12 +53,10 @@ export const TypeToChart = ({ resultSet, chartType }) => {
         </CartesianChart>
       );
     case "histogram":
-      const results = chunkify(resultSet, 7).map((range) => {
-        const rangeFrequency = range
-          .map(({ frequency }) => +frequency)
-          .reduce((prev, current) => prev + current);
-        const min = +range[0].key;
-        const max = Math.max(...range.map(({ key }) => key));
+      const results = chunkify(rawArr, 7).map((range) => {
+        const rangeFrequency = range.length
+        const min = +range[0]
+        const max = Math.max(...range);
         return { frequency: rangeFrequency, min, key: `${min} - ${max}` };
       });
       return (

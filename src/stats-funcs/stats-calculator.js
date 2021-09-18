@@ -31,6 +31,6 @@ const StatsCalculator = (input) => {
       ? (+arr[Math.floor((3 * n) / 4 - 1)] + +arr[Math.floor((3 * n) / 4)]) / 2
       : arr[Math.floor((3 * n) / 4)];
   const IQR = q3 - q1;
-  return { n, mean, median, mode, frequencyArr, sDev, range, q1, q3, IQR };
+  return { n, mean: mean.toFixed(2), median, mode, frequencyArr, sDev: sDev.toFixed(2), range, q1, q3, IQR, arr };
 };
 export default StatsCalculator;

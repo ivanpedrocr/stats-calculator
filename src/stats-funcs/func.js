@@ -21,33 +21,42 @@ export const parseString = (str) => {
   return parsedString;
 };
 
-export function chunkify(a, n, balanced = true) {
+export function chunkify(a, n) {
   if (n < 2) return [a];
 
-  let len = a.length,
-    out = [],
-    i = 0,
-    size;
+  const max = Math.max(...a);
+  const interval = +(max/n).toFixed()
+  let result = []
 
-  if (len % n === 0) {
-    size = Math.floor(len / n);
-    while (i < len) {
-      out.push(a.slice(i, (i += size)));
-    }
-  } else if (balanced) {
-    while (i < len) {
-      size = Math.ceil((len - i) / n--);
-      out.push(a.slice(i, (i += size)));
-    }
-  } else {
-    n--;
-    size = Math.floor(len / n);
-    if (len % size === 0) size--;
-    while (i < size * n) {
-      out.push(a.slice(i, (i += size)));
-    }
-    out.push(a.slice(size * n));
-  }
+  // let len = a.length,
+  //   out = [],
+  //   i = 0,
+  //   size;
 
-  return out;
+  for (let i = 1; i < max; i+= interval) {
+    result.push(a.filter(function(d){
+      return ((i+interval > d) && d >= i);  // check if the number between lower and upper bound
+      }));
+    }
+  // if (len % n === 0) {
+  //   size = Math.floor(len / n);
+  //   while (i < len) {
+  //     out.push(a.slice(i, (i += size)));
+  //   }
+  // } else if (balanced) {
+  //   while (i < len) {
+  //     size = Math.ceil((len - i) / n--);
+  //     out.push(a.slice(i, (i += size)));
+  //   }
+  // } else {
+  //   n--;
+  //   size = Math.floor(len / n);
+  //   if (len % size === 0) size--;
+  //   while (i < size * n) {
+  //     out.push(a.slice(i, (i += size)));
+  //   }
+  //   out.push(a.slice(size * n));
+  // }
+
+  return result;
 }
