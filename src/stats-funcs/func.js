@@ -26,7 +26,8 @@ export function chunkify(a, n) {
   if (n < 2) return [a];
 
   const max = Math.max(...a);
-  const interval = +(max/n).toFixed()
+  const min = Math.min(...a)
+  const interval = Math.ceil((max-min)/(n+1))
   let result = []
 
   // let len = a.length,
@@ -34,7 +35,7 @@ export function chunkify(a, n) {
   //   i = 0,
   //   size;
 
-  for (let i = 1; i < max; i+= interval) {
+  for (let i = min; i < max; i+= interval) {
     result.push(a.filter(function(d){
       return ((i+interval > d) && d >= i);  // check if the number between lower and upper bound
       }));
@@ -58,6 +59,6 @@ export function chunkify(a, n) {
   //   }
   //   out.push(a.slice(size * n));
   // }
-
+    console.log(result)
   return result;
 }

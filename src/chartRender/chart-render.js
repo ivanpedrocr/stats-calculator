@@ -53,12 +53,16 @@ export const TypeToChart = ({ frequencyArr, rawArr, chartType }) => {
         </CartesianChart>
       );
     case "histogram":
-      const results = chunkify(rawArr, 7).map((range) => {
+      const min = Math.min(...rawArr)
+      const max = Math.max(...rawArr)
+      let n = 0
+      const results = chunkify(rawArr, 6).map((range) => {
+        n+=1
+        console.log({n, max})
         const rangeFrequency = range.length
-        const min = +range[0]
-        const max = Math.max(...range);
-        return { frequency: rangeFrequency, min, key: `${min} - ${max}` };
+        return { frequency: rangeFrequency, key: `${n === 1 ? min : (((max - min)/7) * (n-1) + min).toFixed()}-${(((max - min)/7) * n + min).toFixed()}` };
       });
+      console.log(results)
       return (
         <CartesianChart
           ChartComponent={BarChart}
