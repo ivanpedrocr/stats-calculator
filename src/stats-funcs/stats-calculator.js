@@ -23,13 +23,13 @@ const StatsCalculator = (input) => {
   const max = Math.max(...arr);
   const range = max - min;
   const q1 =
-    n % 2 === 0
+    n % 4 === 0 || (n-1) % 4 === 0
       ? (+arr[Math.floor(n / 4 - 1)] + arr[Math.floor(n / 4)]) / 2
       : arr[Math.floor(n / 4)];
   const q3 =
-    n % 2 === 0
-      ? (+arr[Math.floor((3 * n) / 4 - 1)] + +arr[Math.floor((3 * n) / 4)]) / 2
-      : arr[Math.floor((3 * n) / 4)];
+  (n-1) % 4 === 0
+  ? (+arr[Math.floor(3 * n / 4 + 1)] + arr[Math.floor(3 * n / 4)]) / 2
+  : n % 4 === 0 ? (+arr[Math.floor(3 * n / 4 - 1)] + arr[Math.floor(3 * n / 4)]) / 2 : arr[Math.floor(3 * n / 4)];
   const IQR = q3 - q1;
   return { n, mean: mean.toFixed(2), median, mode, frequencyArr, sDev: sDev.toFixed(2), range, q1, q3, IQR, arr };
 };

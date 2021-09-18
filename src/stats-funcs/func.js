@@ -7,12 +7,13 @@ export const countString = (str) => {
   const total = +Object.keys(items)[0]
     ? arr.map((x) => +x).reduce((prev, curr) => prev + curr)
     : Object.values(items).reduce((prev, curr) => prev + curr);
+  const sortedArr = +Object.keys(items)[0]
+  ? arr.map((x) => +x).sort((a, b) => a - b)
+  : arr
   return {
     total,
     items,
-    arr: +Object.keys(items)[0]
-      ? arr.map((x) => +x).sort((a, b) => a - b)
-      : arr,
+    arr:sortedArr
   };
 };
 export const parseString = (str) => {
