@@ -17,7 +17,7 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import { chunkify } from "../stats-funcs/func";
+import { chunkify, floor10 } from "../stats-funcs/func";
 
 const colors = ["#FF6492", "#141446", "#7A77FF"];
 
@@ -55,16 +55,17 @@ export const TypeToChart = ({ frequencyArr, rawArr, chartType }) => {
     case "histogram":     //TODO add bar chartm dot plot, pie chart option
       const min = Math.min(...rawArr)
       const max = Math.max(...rawArr)
+      const bars = rawArr.length <= 9 ? rawArr.length : 7
       let n = 0
       const results = chunkify(rawArr, 6).map((range) => {
         n+=1
         const rangeFrequency = range.length
-        return { frequency: rangeFrequency, key: `${n === 1 ? min : (((max - min)/7) * (n-1) + min).toFixed()}-${(((max - min)/7) * n + min).toFixed()}` };
+        return { frequency: rangeFrequency, key: `${n === 1 ? min : (floor10(((max - min)/bars), -2) * (n-1) + min).toFixed()}-${(floor10(((max - min)/bars), -2) * n + min).toFixed()}` };
       });
       return (
         <CartesianChart
           ChartComponent={BarChart}
-          resultSet={rawArr.length <= 7 ? frequencyArr : results}
+          resultSet={rawArr.length <= 9 ? frequencyArr : results}
           barCategoryGap={0}
         >
           <Bar stackId="a" dataKey="frequency" fill={colors[0]} />;

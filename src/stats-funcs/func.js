@@ -17,7 +17,7 @@ export const countString = (str) => {
   };
 };
 export const parseString = (str) => {
-  const replaceComma = str.replace(/\,/g, "");
+  const replaceComma = str.replace(/,/g, "");
   const parsedString = replaceComma.replace(/(\r\n|\r|\n)|\t/g, " ");
   return parsedString;
 };
@@ -27,14 +27,14 @@ export function chunkify(a, n) {
 
   const max = Math.max(...a);
   const min = Math.min(...a)
-  const interval = Math.ceil((max-min)/(n+1))
+  const interval = ceil10(((max-min)/(n+1)), -6)
   let result = []
 
   // let len = a.length,
   //   out = [],
   //   i = 0,
   //   size;
-
+n=0
   for (let i = min; i < max; i+= interval) {
     result.push(a.filter(function(d){
       return ((i+interval > d) && d >= i);  // check if the number between lower and upper bound
@@ -61,3 +61,26 @@ export function chunkify(a, n) {
   // }
   return result;
 }
+
+function decimalAdjust(type, value, exp) {
+  // If the exp is undefined or zero...
+  if (typeof exp === 'undefined' || +exp === 0) {
+    return Math[type](value);
+  }
+  value = +value;
+  exp = +exp;
+  // If the value is not a number or the exp is not an integer...
+  if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+    return NaN;
+  }
+  // Shift
+  value = value.toString().split('e');
+  value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+  // Shift back
+  value = value.toString().split('e');
+  return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+}
+
+const round10 = (value, exp) => decimalAdjust('round', value, exp);
+export const floor10 = (value, exp) => decimalAdjust('floor', value, exp);
+export const ceil10 = (value, exp) => decimalAdjust('ceil', value, exp);
