@@ -1,5 +1,5 @@
 export const countString = (str) => {
-  const arr = str.split(" ");
+  const arr = str.trim().split(" ");
   const items = {};
   arr.forEach((i) => {
     items[i] = (items[i] || 0) + 1;
@@ -59,6 +59,5 @@ export function chunkify(a, n) {
   //   }
   //   out.push(a.slice(size * n));
   // }
-    console.log(result)
   return result;
 }

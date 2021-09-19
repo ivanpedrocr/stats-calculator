@@ -52,21 +52,19 @@ export const TypeToChart = ({ frequencyArr, rawArr, chartType }) => {
           />
         </CartesianChart>
       );
-    case "histogram":
+    case "histogram":     //TODO add bar chartm dot plot, pie chart option
       const min = Math.min(...rawArr)
       const max = Math.max(...rawArr)
       let n = 0
       const results = chunkify(rawArr, 6).map((range) => {
         n+=1
-        console.log({n, max})
         const rangeFrequency = range.length
         return { frequency: rangeFrequency, key: `${n === 1 ? min : (((max - min)/7) * (n-1) + min).toFixed()}-${(((max - min)/7) * n + min).toFixed()}` };
       });
-      console.log(results)
       return (
         <CartesianChart
           ChartComponent={BarChart}
-          resultSet={results}
+          resultSet={rawArr.length <= 7 ? frequencyArr : results}
           barCategoryGap={0}
         >
           <Bar stackId="a" dataKey="frequency" fill={colors[0]} />;

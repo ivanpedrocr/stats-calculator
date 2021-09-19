@@ -18,7 +18,7 @@ function App() {
   const {frequencyArr, arr, ...stats} = StatsCalculator(input);
   return (
     <div className="App">
-      <Box>
+      <Box p={2}>
         <FormControl>
           <Box flexDirection="row">
             <TextField
@@ -45,9 +45,9 @@ function App() {
           </Box>
         </FormControl>
       </Box>
-      <ol>
+      <ol style={{padding: "0px 16px"}}>
         {input &&
-          Object.entries(stats).map(([key, value]) => <div>{`${key}: ${value}`}</div> )}
+          Object.entries(stats).map(([key, value]) => <div style={{margin: "4px 0px"}}>{`${key}: ${value}`}</div> )}
       </ol>
       {input && chartType && (
         <TypeToChart frequencyArr={frequencyArr} rawArr={arr} chartType={chartType} />
