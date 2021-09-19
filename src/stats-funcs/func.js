@@ -1,5 +1,5 @@
 export const countString = (str) => {
-  const arr = str.trim().split(" ");
+  const arr = str.split(" ");
   const items = {};
   arr.forEach((i) => {
     items[i] = (items[i] || 0) + 1;
@@ -17,7 +17,8 @@ export const countString = (str) => {
   };
 };
 export const parseString = (str) => {
-  const replaceComma = str.replace(/,/g, "");
+  const replaceSpace = str.trim().replace(/\s\s+/g, ' ')
+  const replaceComma = replaceSpace.replace(/,/g, "");
   const parsedString = replaceComma.replace(/(\r\n|\r|\n)|\t/g, " ");
   return parsedString;
 };
